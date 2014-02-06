@@ -7,4 +7,5 @@ playback in Quicktime Player.
 How I made the .app:
 
 py2applet --make-setup GrabTwitch.py
+
 python setup.py py2app
