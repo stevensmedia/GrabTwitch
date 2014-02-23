@@ -22,6 +22,8 @@ submitButton = Tkinter.Button(rootWindow, command=submit, text='Submit')
 dataEntry = Tkinter.Entry(rootWindow, state='readonly')
 copyButton = Tkinter.Button(rootWindow, command=copy, text='Copy')
 
+rootWindow.bind("<Return>", lambda x: submit())
+
 channelEntry.pack(fill=Tkinter.X)
 submitButton.pack(fill=Tkinter.X)
 dataEntry.pack(fill=Tkinter.X)
