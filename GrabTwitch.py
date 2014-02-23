@@ -1,26 +1,54 @@
 #! /usr/bin/env python
 
+isMac = True
+try:
+	import Foundation
+except ImportError:
+	isMac = False
+
 import Twitch
 import Tkinter
+import os
+
+def setButtons(s):
+	copyButton.config(state=s)
+	qtpButton.config(state=s)
 
 def submit():
 	channel = channelEntry.get()
+	data = Twitch.grab(channel)
+	if data == '':
+		data = 'OFFLINE'
+
 	dataEntry.config(state=Tkinter.NORMAL)
 	dataEntry.delete(0, Tkinter.END)
-	dataEntry.insert(0, Twitch.grab(channel))
+	dataEntry.insert(0, data)
 	dataEntry.config(state='readonly')
+
+	if data == 'OFFLINE':
+		setButtons(Tkinter.DISABLED)
+	else:
+		setButtons(Tkinter.NORMAL)
 
 def copy():
 	rootWindow.clipboard_clear()
 	rootWindow.clipboard_append(dataEntry.get())
 
+def qtp():
+	script = 'tell app "Quicktime Player" to open URL "' + dataEntry.get() + '"'
+	Foundation.NSAppleScript.alloc().initWithSource_(script).executeAndReturnError_(None)
+	script = 'tell app "Quicktime Player" to set audio volume of last document to 0.5'
+	Foundation.NSAppleScript.alloc().initWithSource_(script).executeAndReturnError_(None)
+
 rootWindow = Tkinter.Tk()
-rootWindow.geometry('600x120')
+rootWindow.geometry('600x140')
 rootWindow.title("GrabTwitch")
 channelEntry = Tkinter.Entry(rootWindow)
 submitButton = Tkinter.Button(rootWindow, command=submit, text='Submit')
 dataEntry = Tkinter.Entry(rootWindow, state='readonly')
 copyButton = Tkinter.Button(rootWindow, command=copy, text='Copy')
+qtpButton = Tkinter.Button(rootWindow, command=qtp, text='Open in Quicktime Player')
+setButtons(Tkinter.DISABLED)
 
 rootWindow.bind("<Return>", lambda x: submit())
 
@@ -28,5 +56,7 @@ channelEntry.pack(fill=Tkinter.X)
 submitButton.pack(fill=Tkinter.X)
 dataEntry.pack(fill=Tkinter.X)
 copyButton.pack(fill=Tkinter.X)
+if isMac:
+	qtpButton.pack(fill=Tkinter.X)
 
 rootWindow.mainloop()
