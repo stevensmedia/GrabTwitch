@@ -16,9 +16,10 @@ def setButtons(s):
 	vlcmacButton.config(state=s)
 
 def submit():
-	channel = channelEntry.get()
-	data = Twitch.grab(channel)
-	if data == '':
+	try:
+		channel = channelEntry.get()
+		data = Twitch.grab(channel)
+	except:
 		data = 'OFFLINE'
 
 	dataEntry.config(state=Tkinter.NORMAL)
