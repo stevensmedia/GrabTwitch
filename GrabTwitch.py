@@ -13,6 +13,7 @@ import os
 def setButtons(s):
 	copyButton.config(state=s)
 	qtpButton.config(state=s)
+	vlcmacButton.config(state=s)
 
 def submit():
 	channel = channelEntry.get()
