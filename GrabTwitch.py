@@ -46,7 +46,10 @@ def qtp():
 
 
 rootWindow = Tkinter.Tk()
-rootWindow.geometry('600x140')
+if isMac:
+	rootWindow.geometry('600x170')
+else:
+	rootWindow.geometry('600x110')
 rootWindow.title("GrabTwitch")
 channelEntry = Tkinter.Entry(rootWindow)
 submitButton = Tkinter.Button(rootWindow, command=submit, text='Submit')
