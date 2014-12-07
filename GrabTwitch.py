@@ -37,8 +37,7 @@ def copy():
 	rootWindow.clipboard_append(dataEntry.get())
 
 def vlcmac():
-	script = 'do shell script "open -na /Applications/VLC.app --args --quiet --open " & quote & ' + dataEntry.get() + ' & quote"'
-	Foundation.NSAppleScript.alloc().initWithSource_(script).executeAndReturnError_(None)
+	os.system('/Applications/VLC.app/Contents/MacOS/VLC "'+ dataEntry.get() + '"')
 
 def qtp():
 	script = 'tell app "Quicktime Player" to open URL "' + dataEntry.get() + '"'
@@ -58,7 +57,7 @@ submitButton = Tkinter.Button(rootWindow, command=submit, text='Submit')
 dataEntry = Tkinter.Entry(rootWindow, state='readonly')
 copyButton = Tkinter.Button(rootWindow, command=copy, text='Copy')
 qtpButton = Tkinter.Button(rootWindow, command=qtp, text='Open in Quicktime Player')
-vlcmacButton = Tkinter.Button(rootWindow, command=qtp, text='Open in VLC')
+vlcmacButton = Tkinter.Button(rootWindow, command=vlcmac, text='Open in VLC')
 setButtons(Tkinter.DISABLED)
 
 rootWindow.bind("<Return>", lambda x: submit())
